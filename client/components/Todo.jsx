@@ -9,6 +9,9 @@ class Todo extends Component {
           <li>How</li>
           <li>are</li>
           <li>you</li>
+          <li>you</li>
+          <li>are</li>
+          <li>you</li>
         </ul>
       </div>
     )
