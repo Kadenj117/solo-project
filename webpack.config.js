@@ -22,8 +22,8 @@ module.exports = {
     publicPath: '/',
     inline: true,
     proxy: {
-      '/api/': {
-        target: 'http://localhost:3000/',
+      '/api': {
+        target: 'http://localhost:3000',
       }
     }
   },
@@ -42,7 +42,7 @@ module.exports = {
         test: /\.s[ac]ss$/i,
         include: [path.resolve(__dirname, 'client')],
         exclude: /node_modules/,
-        use: ['style-loader' , 'css-loader', 'sass-loader']
+        use: ['style-loader', 'css-loader', 'sass-loader']
       },
     ]
   },

@@ -18,11 +18,10 @@ const todoSchema = new Schema({
   name: String,
   priority: Number,
   done: Boolean,
-  timeCreated: Date,
 })
 
 const ToDo = mongoose.model('ToDo', todoSchema)
 
-module.export = ToDo;
+module.exports = ToDo;
 
 
