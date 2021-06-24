@@ -12,13 +12,16 @@ class TodoItem extends Component {
     this.handleDone = this.handleDone.bind(this)
   }
 
-  async handleDelete() {
+  handleDelete() {
     //console.log(this.props.doc._id)
-    await fetch(`/api/${this.props.doc._id}`, {
+    fetch(`/api/${this.props.doc._id}`, {
       method: 'DELETE',
     })
-    //console.log('delete handled')
-    this.props.del()
+      //console.log('delete handled')
+      .then(() => {
+        console.log(this.props.index)
+        this.props.del(this.props.index)
+      })
   }
 
   handleDone() {
@@ -37,13 +40,13 @@ class TodoItem extends Component {
   render() {
     //console.log('hello', this.props.doc)
     return (
-      <div>
-        <input type="checkbox" onChange={this.handleDone} checked={this.state.done} />
-        <div>
+      <div className="item">
+        <input className="checker" type="checkbox" onChange={this.handleDone} checked={this.state.done} />
+        <div className="infoItem">
           <h4>{this.state.name}</h4>
-          <p>{this.state.priority}</p>
+          <p id="priority"> * Priority:  {this.state.priority}</p>
         </div>
-        <button onClick={this.handleDelete}>Delete</button>
+        <button className="deleteButton" onClick={this.handleDelete}>Delete</button>
       </div >
     )
   }

@@ -15,6 +15,7 @@ class Todo extends Component {
     this.handleValChange = this.handleValChange.bind(this);
     this.postTodo = this.postTodo.bind(this);
     this.updateState = this.updateState.bind(this);
+    this.deleteOne = this.deleteOne.bind(this);
   }
 
   componentDidMount() {
@@ -52,27 +53,49 @@ class Todo extends Component {
     //console.log('here')
     fetch('/api')
       .then(res => res.json())
-      .then(data => this.setState({ todos: data }))
+      .then(data => {
+        console.log(data)
+        return data;
+      })
+      .then(data => this.setState({ todos: [...data] }))
+  }
+
+  deleteOne(index) {
+    const todoList = [];
+    this.state.todos.forEach((el, i) => {
+      if (i !== index) {
+        todoList.push(el)
+      }
+    })
+    console.log(todoList)
+    this.setState({ todos: [] })
+    this.setState({ todos: [...todoList] })
+
   }
 
   render() {
+    console.log(this.state.todos)
     let list = this.state.todos.map((el, i) => {
       //console.log(el);
       return (
         <TodoItem
           key={`item-${i}`}
+          index={i}
           doc={el}
-          del={this.updateState} />)
+          del={this.deleteOne} />)
     })
     return (
-      <div>
+      <div className="todo">
         <ToDoCreator name={this.props.currName}
           priority={this.props.currPriority}
           keyChange={this.handleKeyChange}
           valChange={this.handleValChange}
           post={this.postTodo}
           update={this.updateState} />
-        {list}
+        <div className='inner'>
+
+          {list}
+        </div>
       </div>
 
     )

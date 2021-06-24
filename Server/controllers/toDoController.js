@@ -2,37 +2,41 @@ const ToDo = require('../models/toDoModels.js');
 
 const toDoController = {};
 
-toDoController.getTodo = async (req, res, next) => {
-  await ToDo.find({}, (err, list) => {
-    if (err) res.status(400);
+toDoController.getTodo = (req, res, next) => {
+  ToDo.find({}, (err, list) => {
+    if (err) return res.status(400).send();
     res.locals.list = list;
+    return next()
   })
-  return next()
+
 };
 
-toDoController.postTodo = async (req, res, next) => {
+toDoController.postTodo = (req, res, next) => {
   //console.log('data sent: ', req.body)
-  await ToDo.create(req.body, (err, todo) => {
-    if (err) res.status(400);
+  ToDo.create(req.body, (err, todo) => {
+    if (err) return res.status(400).send();
     res.locals.todo = todo;
+    return next();
   })
-  return next();
+
 }
 
-toDoController.deleteItem = async (req, res, next) => {
+toDoController.deleteItem = (req, res, next) => {
   //console.log('data recieved', req.params)
-  await ToDo.deleteOne({ _id: req.params.id }, (err, item) => {
-    if (err) return next(err)
+  ToDo.deleteOne({ _id: req.params.id }, (err, item) => {
+    if (err) return res.status(400).send()
     res.locals.deleted = item;
+    return next();
   })
-  return next();
+  
 }
 
-toDoController.updateItem = async (req, res, next) => {
+toDoController.updateItem = (req, res, next) => {
   //console.log('here', !req.body.done)
 
-  await ToDo.updateOne({ _id: req.body._id }, { done: !req.body.done })
-  next();
+  ToDo.updateOne({ _id: req.body._id }, { done: !req.body.done }, (err, item) => {
+    return next();
+  })
 }
 
 module.exports = toDoController;
